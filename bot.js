@@ -24,22 +24,30 @@ client.on("message", function(message) {
   const commandBody = message.content.slice(prefix.length);
   const args = commandBody.split(' ');
   const command = args.shift().toLowerCase();
+  const coinName = args.split(' ');
 
   let user = message.author.id;
   let content = message.content;
   
   if (command === "price") {
+
+    
+
     let AMP 
 
-function getRequest() {
-  axios.get(url, {
+function urlBuilder(coinName){
+  return `http://api.coincap.io/v2/assets${coinName}`;
+}
+
+function getRequest(coinToGet) {
+  axios.get(urlBuilder(coin), {
       headers: { Authorization: 'Bearer ' + token }
   }
   )
       .then( function (response) {
           console.log(response.data.data.priceUsd)
           AMP = response.data.data.priceUsd 
-          message.reply(`AMP USD price is :${AMP}`)
+          message.reply(`${coinToGet} USD price is :${AMP}`)
       })
       .catch(function (error) {
           console.log(error)
